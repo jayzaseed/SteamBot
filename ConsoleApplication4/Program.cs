@@ -10,26 +10,25 @@ using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Net;
 
-
 using SteamKit2;
 using SteamKit2.Internal;
-
 using SteamKit2.GC;
 using SteamKit2.GC.Internal;
 using SteamKit2.Unified;
 using SteamKit2.Unified.Internal;
-
-
 using SteamKit2.GC.CSGO;
 using SteamKit2.GC.CSGO.Internal;
+
+using SteamBot.Helpers;
 
 namespace Steam_Friend_Bot
 {
     
     class Program
     {
-        
+        #region Statics & Publics
         public ulong IDSteam { get; set; }
+
         static SteamClient steamClient;
         static CallbackManager manager;
         static SteamUser steamUser;
@@ -38,106 +37,67 @@ namespace Steam_Friend_Bot
 
 
         static bool isRunning = false;
-
         static string user;
         static string pass;
         static string authcode;
         static string twofactor;
 
+        public PasswordHelper pwHelper;
+
+        /* Things I never use */
         static uint matchID;
-
         bool gotMatch;
-
         const int CSGOID = 730;
-
         public CDataGCCStrike15_v2_MatchInfo match { get; private set; }
+
+
 
         public Program(ulong steamid)
         {
             this.IDSteam = steamid;
         }
+        #endregion
 
+        #region StartUp
         static void Main(string[] args)
         {
-            if(Internet() != true)
-            {
-                Console.WriteLine("[-] No Internet Connection.");
-                Console.Read();
-                return;
-            }
-            else
-            {
-                Console.WriteLine("[+] Internet connection stable.");
-                
-            }
-            
+            StartUp();
+        }
+
+        static void StartUp()
+        {
+            CheckConnection();
+
             if (!File.Exists("chat.txt"))
             {
                 File.Create("chat.txt").Close();
-                File.WriteAllText("chat.txt", "penis | You dont have one!");
+                File.WriteAllText("chat.txt", "Ping | Pong");
 
             }
+
             Console.Title = "Steam Bot";
 
             Console.Write("Username: ");
             user = Console.ReadLine();
 
             Console.Write("Password: ");
-            pass = inputPass();
+            pass = PasswordHelper.inputPass();
             Console.Clear();
-            #region Ascii
-           
-            #endregion
-
-            SteamLogin();
-             
-
         }
+        #endregion
 
-        static string inputPass()
-        {
-            string pass = "";
-            bool protectPass = true;
-            while (protectPass)
-            {
-                char s = Console.ReadKey(true).KeyChar;
-                if (s == '\r')
-                {
-                    protectPass = false;
-                    Console.WriteLine();
-                }
-                else if (s == '\b' && pass.Length > 0)
-                {
-                    Console.CursorLeft -= 1;
-                    Console.Write(' ');
-                    Console.CursorLeft -= 1;
-                    pass = pass.Substring(0, pass.Length - 1);
-                }
-                else
-                {
-                    pass = pass + s.ToString();
-                    Console.Write("*");
-                }
-
-            }
-            return pass;
-        }
+       
 
         static void SteamLogin()
         {
 
-            matchID = matchID;
             steamClient = new SteamClient();
 
+            #region callbacks
             manager = new CallbackManager(steamClient);
-
-            steamUser = steamClient.GetHandler<SteamUser>();
-            steamFriends = steamClient.GetHandler<SteamFriends>();
-            gameCoordinator = steamClient.GetHandler<SteamGameCoordinator>();
-
-            manager.Subscribe<SteamClient.ConnectedCallback>(OnConnected);
+            manager.Subscribe<SteamClient.ConnectedCallback>(OnConnected); 
             manager.Subscribe<SteamUser.LoggedOnCallback>(OnLoggedOn);
-            manager.Subscribe<SteamUser.UpdateMachineAuthCallback>(UpdateMachineAuthCallback);
+            manager.Subscribe<SteamUser.UpdateMachineAuthCallback>(UpdateMachineAuthCallback); // If steam guard auth succeeded
             manager.Subscribe<SteamClient.DisconnectedCallback>(OnDisconnected);
             manager.Subscribe<SteamUser.AccountInfoCallback>(OnAccountInfo);
             manager.Subscribe<SteamFriends.FriendMsgCallback>(OnChatMessage);
@@ -145,7 +105,13 @@ namespace Steam_Friend_Bot
             manager.Subscribe<SteamFriends.FriendAddedCallback>(OnFriendAdded);
             manager.Subscribe<SteamFriends.FriendsListCallback>(OnFriendsList);
             manager.Subscribe<SteamGameCoordinator.MessageCallback>(OnGCMessage);
-           
+            #endregion
+
+            #region Handlers
+            steamUser = steamClient.GetHandler<SteamUser>();
+            steamFriends = steamClient.GetHandler<SteamFriends>();
+            gameCoordinator = steamClient.GetHandler<SteamGameCoordinator>();
+            #endregion
 
             isRunning = true;
 
@@ -634,7 +600,7 @@ namespace Steam_Friend_Bot
             }
         }
 
-        public static bool Internet()
+        public static void CheckConnection()
         {
             try
             {
@@ -642,15 +608,15 @@ namespace Steam_Friend_Bot
                 {
                     using (var stream = client.OpenRead("http://www.google.com"))
                     {
-                        
-                        return true;
+                        // Valid InternetConnection
                     }
                 }
             }
             catch
             {
-
-                return false;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("[ERROR] - You dont have internet connection! ");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -697,6 +663,8 @@ namespace Steam_Friend_Bot
             Thread.Sleep(5000);
 
         }
+
+
 
     }
 }
