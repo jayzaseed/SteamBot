@@ -59,24 +59,6 @@ namespace Steam_Friend_Bot
 
         static void Main(string[] args)
         {
-            #region Ascii
-            Console.WriteLine(".____                                      ________ ");
-            Console.WriteLine("|    |    ____   _________    ____ ___  ___\\_____  \\ ");
-            Console.WriteLine("|    |   /  _ \\ / ___\\__  \\  /    \\  \\/  /  _(__  <");
-            Console.WriteLine("|    |__(  <_> ) /_/  > __ \\|   |  \\>    <  /       \\)");
-            Console.WriteLine("|_______ \\____/\\___  (____  /___|  /__/\\_ \\/______  /");
-            Console.WriteLine("        \\/    /_____/     \\/     \\/      \\/       \\/ ");
-            Console.WriteLine("\n");
-            Console.WriteLine(".d8888b.  888                                   888888b.            888    ");
-            Console.WriteLine("d88P  Y88b 888                                   888  \"88b           888    ");
-            Console.WriteLine("Y88b.      888                                   888  .88P           888    ");
-            Console.WriteLine(" \"Y888b.   888888.d88b.   8888b.  88888b.d88b.  8888888K.   .d88b.  888888 ");
-            Console.WriteLine("    \"Y88b. 888   d8P  Y8b     \"88b 888 \"888 \"88b 888  \"Y88b d88\"\"88b 888    ");
-            Console.WriteLine("      \"888 888   88888888.d888888 888  888  888 888    888 888  888 888    ");
-            Console.WriteLine("Y88b  d88P Y88b. Y8b.     888  888 888  888  888 888   d88P Y88..88P Y88b.  ");
-            Console.WriteLine("\"Y8888P\"   \"Y888 \"Y8888  \"Y888888 888  888  888 8888888P\"   \"Y88P\"   \"Y888 ");
-            Console.WriteLine("\n");
-            #endregion
             if(Internet() != true)
             {
                 Console.WriteLine("[-] No Internet Connection.");
@@ -104,22 +86,7 @@ namespace Steam_Friend_Bot
             pass = inputPass();
             Console.Clear();
             #region Ascii
-            Console.WriteLine(".____                                      ________ ");
-            Console.WriteLine("|    |    ____   _________    ____ ___  ___\\_____  \\ ");
-            Console.WriteLine("|    |   /  _ \\ / ___\\__  \\  /    \\  \\/  /  _(__  <");
-            Console.WriteLine("|    |__(  <_> ) /_/  > __ \\|   |  \\>    <  /       \\)");
-            Console.WriteLine("|_______ \\____/\\___  (____  /___|  /__/\\_ \\/______  /");
-            Console.WriteLine("        \\/    /_____/     \\/     \\/      \\/       \\/ ");
-            Console.WriteLine("\n");
-            Console.WriteLine(".d8888b.  888                                   888888b.            888    ");
-            Console.WriteLine("d88P  Y88b 888                                   888  \"88b           888    ");
-            Console.WriteLine("Y88b.      888                                   888  .88P           888    ");
-            Console.WriteLine(" \"Y888b.   888888.d88b.   8888b.  88888b.d88b.  8888888K.   .d88b.  888888 ");
-            Console.WriteLine("    \"Y88b. 888   d8P  Y8b     \"88b 888 \"888 \"88b 888  \"Y88b d88\"\"88b 888    ");
-            Console.WriteLine("      \"888 888   88888888.d888888 888  888  888 888    888 888  888 888    ");
-            Console.WriteLine("Y88b  d88P Y88b. Y8b.     888  888 888  888  888 888   d88P Y88..88P Y88b.  ");
-            Console.WriteLine("\"Y8888P\"   \"Y888 \"Y8888  \"Y888888 888  888  888 8888888P\"   \"Y88P\"   \"Y888 ");
-            Console.WriteLine("\n");
+           
             #endregion
 
             SteamLogin();
